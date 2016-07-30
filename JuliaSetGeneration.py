@@ -16,10 +16,10 @@ import math
 
 
 def main():
-	fps = 10
-	num_cycles = 25	#number if iterations of the polynomial
-	num_points = 500
-	number_of_frames = fps*30
+	fps = 15
+	num_cycles = 100	#25	#number if iterations of the polynomial
+	num_points = 250
+	number_of_frames = fps*8
 	
 	FFMpegWriter = manimation.writers['ffmpeg']
 	metadata = dict(title='Movie', artist='markers', comment='markers movie')
@@ -28,19 +28,19 @@ def main():
 	
 	colormap = get_colormap((4/15.,4/5.,1.,1.), (1,0,0,1), num_cycles)
 	
-	with writer.saving(fig, "writer_test_2.mp4", 100):
+	with writer.saving(fig, "writer_test_x.mp4", 200):
 		angle_delta = 2*math.pi /  number_of_frames
 		for frame_index in range(number_of_frames):
 			print 'frame_index', frame_index, '/', number_of_frames
 			
 			angle = frame_index*angle_delta
-			c = 0.6180*math.cos(angle) + 0.6180j*math.sin(angle)
+			c = 0.61803398875*math.cos(angle) + 0.61803398875j*math.sin(angle)
 			indexes = get_indexes(num_cycles, num_points, c)
 			plt.imshow(indexes, cmap=colormap)
 			
 			if frame_index == 0:
 				plt.axis('off')
-				plt.colorbar()
+				#plt.colorbar()
 				
 			writer.grab_frame()
 			
@@ -63,7 +63,8 @@ def get_indexes(num_cycles, num_points, c):
 	
 	indexes = num_cycles * np.ones(z.shape)
 	for power_index in range(num_cycles):
-		print '\tpower_index:', power_index
+		if power_index % 10 == 0:
+			print '\tpower_index:', power_index
 		
 		z = z**2 + c
 		
@@ -85,7 +86,7 @@ def get_colormap(c1, c2, num_points):
 	col.append((0,0,0,1))		#set zeroth element to black
 	for idx in range(num_points-1):
 		degree = 1.0 - (idx/float(num_points))
-		#degree = degree**(1.0/2)
+		degree = degree**(3)
 		cn = (degree*c1[0]+(1-degree)*c2[0], degree*c1[1]+(1-degree)*c2[1], degree*c1[2]+(1-degree)*c2[2], degree*c1[3]+(1-degree)*c2[3])
 		#print degree, cn
 		col.append(cn)
