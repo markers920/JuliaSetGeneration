@@ -2,6 +2,8 @@
 # https://ffmpeg.zeranoe.com/builds/
 # http://www.wikihow.com/Install-FFmpeg-on-Windows
 
+#likely need to run with anaconda, or download all the packages
+
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -24,14 +26,7 @@ def main():
 	writer = FFMpegWriter(fps, metadata=metadata)
 	fig = plt.figure()
 	
-	
-	
 	colormap = get_colormap((4/15.,4/5.,1.,1.), (1,0,0,1), num_cycles)
-	
-	
-	
-	
-
 	
 	with writer.saving(fig, "writer_test_2.mp4", 100):
 		angle_delta = 2*math.pi /  number_of_frames
